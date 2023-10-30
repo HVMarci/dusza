@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>List users</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Role</th>
+            {% if has_role('ADMIN') %}
+                <th colspan="2"></th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.user_id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role.name }}</td>
+                {% if has_role('ADMIN') %}
+                    <td><a href="{{ url_for('users.edit_user', username=user.username) }}">edit</a></td>
+                    <td>
+                        <form method="post" action="{{ url_for('users.delete_user', username=user.username) }}">
+                            <a href="#" onclick="confirm('Delete user?') && this.closest('form').submit()">delete</a>
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if has_role('ADMIN') %}
+        <p><a href="{{ url_for('users.create_user') }}">Create user</a></p>
+    {% endif %}
+{% endblock %}

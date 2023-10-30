@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>List roles</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th colspan="2"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for role in roles %}
+            <tr>
+                <td>{{ role.role_id }}</td>
+                <td>{{ role.name }}</td>
+                <td><a href="{{ url_for('roles.edit_role', name=role.name) }}">edit</a></td>
+                <td>
+                    <form method="post" action="{{ url_for('roles.delete_role', name=role.name) }}">
+                        <a href="#" onclick="confirm('Delete role?') && this.closest('form').submit()">delete</a>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ url_for('roles.create_role') }}">Create role</a></p>
+{% endblock %}

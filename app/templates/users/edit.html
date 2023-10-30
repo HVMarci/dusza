@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>{{ 'Create' if form.create else 'Edit' }} user</h2>
+
+    <form method="post" onsubmit="return confirm('{{ 'Create' if form.create else 'Save' }} user?')">
+        {% if form.errors|length > 0 %}
+        <ul>
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <table>
+            <tr>
+                <th><label for="username">Username</label></th>
+                <td><input type="text" name="username" value="{{ form.username }}" id="username" required></td>
+            </tr>
+            <tr>
+                <th><label for="password">Password</label></th>
+                <td><input type="password" name="password" value="{{ form.password }}" id="password"{{ ' required' if form.create else '' }}></td>
+            </tr>
+            <tr>
+                <th><label for="role">Role</label></th>
+                <td>
+                    <select name="role_id" id="role" required>
+                        {% for role in roles %}
+                            <option value="{{ role.role_id }}"{{ ' selected' if role.role_id == form.role_id else '' }}>
+                                {{ role.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">{{ 'Create' if form.create else 'Save' }}</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

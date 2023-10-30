@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Edit role - {{ 'Create' if form.create else 'Edit' }} user</h2>
+
+    <table>
+        <tr>
+            <th><label for="name">Name</label></th>
+            <td><input type="text" value="{{ role.name }}" id="name" disabled></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="button" disabled>Save</button>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Users</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th colspan="2"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in role.users %}
+            <tr>
+                <td>{{ user.user_id }}</td>
+                <td>{{ user.username }}</td>
+                <td><a href="{{ url_for('roles.edit_role_user', name=role.name, username=user.username) }}">edit</a></td>
+                <td>
+                    <form method="post" action="{{ url_for('roles.delete_role_user', name=role.name, username=user.username) }}">
+                        <a href="#" onclick="confirm('Delete user?') && this.closest('form').submit()">delete</a>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>{{ 'Create' if form.create else 'Edit' }} user</h2>
+
+    <form method="post" onsubmit="return confirm('{{ 'Create' if form.create else 'Save' }} user?')">
+        {% if form.errors|length > 0 %}
+        <ul>
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <table>
+            <tr>
+                <th><label for="username">Username</label></th>
+                <td><input type="text" name="username" value="{{ form.username }}" id="username" required></td>
+            </tr>
+            <tr>
+                <th><label for="password">Password</label></th>
+                <td><input type="password" name="password" value="{{ form.password }}" id="password"{{ ' required' if form.create else '' }}></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">{{ 'Create' if form.create else 'Save' }}</button>
+                    <button type="button" onclick="window.location.href = '{{ url_for('roles.edit_role', name=role.name) }}';">Cancel</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
