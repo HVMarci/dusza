@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Feladatok</h2>
+    <table>
+        <tr>
+            <th>1. Szó</th>
+            <th>2. Szó</th>
+            <th>3. Szó</th>
+            <th>4. Szó</th>
+            <th>Évfolyam</th>
+            <th>Tanár</th>
+        </tr>
+        {% for feladat in feladatok %}
+            <tr>
+            {% for i in range(0,4) %}
+                <td>{{ feladat.strings[i] }}</td>
+            {% endfor %}
+            <td>{{ feladat.number }}</td>
+            <td>{{ feladat.upload.user.username }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('feladat.feladat_upload') }}">Új feladat feltöltése</a>
+{% endblock %}

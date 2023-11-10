@@ -13,10 +13,13 @@ def create_app(config_class=Config):
     from app.pages import bp as pages_bp
     app.register_blueprint(pages_bp, url_prefix='/')
 
-    from app.roles import bp as roles_bp
-    app.register_blueprint(roles_bp, url_prefix='/roles')
+    #from app.roles import bp as roles_bp
+    #app.register_blueprint(roles_bp, url_prefix='/roles')
 
     from app.users import bp as users_bp
     app.register_blueprint(users_bp, url_prefix='/users')
+
+    from app.feladat import bp as feladat_bp
+    app.register_blueprint(feladat_bp, url_prefix='/feladat')
 
     return app

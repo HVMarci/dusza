@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ user.user_id }}</td>
                 <td>{{ user.username }}</td>
-                <td>{{ user.role.name }}</td>
+                <td>{{ user.role.display_name }}</td>
                 {% if has_role('ADMIN') %}
                     <td><a href="{{ url_for('users.edit_user', username=user.username) }}">edit</a></td>
                     <td>

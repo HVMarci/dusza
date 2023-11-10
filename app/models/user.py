@@ -4,12 +4,14 @@ from app.connection import fetchall, fetchone, execute
 
 
 class User:
-    def __init__(self, username, digest=None, role_id=None, user_id=None, password=None, ):
+    def __init__(self, username, digest=None, role_id=None, user_id=None, evfolyam=5, osztaly='', password=None, ):
         self.user_id = user_id
         self.username = username
         self.digest = digest
         self.role_id = role_id
         self.password = password
+        self.evfolyam = evfolyam
+        self.osztaly = osztaly
 
     @property
     def password(self):
@@ -32,12 +34,12 @@ class User:
         if row is None:
             return None
 
-        return User(row['username'], row['digest'], row['role_id'], row['id'])
+        return User(row['username'], row['digest'], row['role_id'], row['id'], row['evfolyam'], row['osztaly'])
 
     @staticmethod
     def find_all():
         query = '''
-            SELECT `id`, `username`, `digest`, `role_id`
+            SELECT `id`, `username`, `digest`, `role_id`, `evfolyam`, `osztaly`
             FROM `users`
             ORDER BY `username`;
         '''
@@ -47,7 +49,7 @@ class User:
     @staticmethod
     def find_by_id(user_id):
         query = '''
-            SELECT `id`, `username`, `digest`, `role_id`
+            SELECT `id`, `username`, `digest`, `role_id`, `evfolyam`, `osztaly`
             FROM `users`
             WHERE `id` = %s;
         '''
@@ -57,7 +59,7 @@ class User:
     @staticmethod
     def find_by_username(username):
         query = '''
-            SELECT `id`, `username`, `digest`, `role_id`
+            SELECT `id`, `username`, `digest`, `role_id`, `evfolyam`, `osztaly`
             FROM `users`
             WHERE `username` = %s;
         '''
@@ -67,7 +69,7 @@ class User:
     @staticmethod
     def find_by_role_id(role_id):
         query = '''
-                SELECT `id`, `username`, `digest`, `role_id`
+                SELECT `id`, `username`, `digest`, `role_id`, `evfolyam`, `osztaly`
                 FROM `users`
                 WHERE `role_id` = %s
                 ORDER BY `username`;
@@ -78,7 +80,7 @@ class User:
     @staticmethod
     def find_by_username_and_role_id(username, role_id):
         query = '''
-                SELECT `id`, `username`, `digest`, `role_id`
+                SELECT `id`, `username`, `digest`, `role_id`, `evfolyam`, `osztaly`
                 FROM `users`
                 WHERE `username` = %s AND `role_id` = %s;
             '''
@@ -92,18 +94,18 @@ class User:
                     UPDATE `users`
                     SET `username` = %s,
                         `digest` = %s,
-                        `role_id` = %s
+                        `role_id` = %s, `evfolyam` = %s, `osztaly` = %s
                     WHERE `id` = %s;
                 '''
 
-            execute(query, (user.username, user.digest, user.role_id, user.user_id))
+            execute(query, (user.username, user.digest, user.role_id, user.evfolyam, user.osztaly, user.user_id))
         else:
             query = '''
-                    INSERT INTO `users`(`username`, `digest`, `role_id`)
-                    VALUES (%s, %s, %s);
+                    INSERT INTO `users`(`username`, `digest`, `role_id`, `evfolyam`, `osztaly`)
+                    VALUES (%s, %s, %s, %s, %s);
                 '''
 
-            user.user_id = execute(query, (user.username, user.digest, user.role_id))
+            user.user_id = execute(query, (user.username, user.digest, user.role_id, user.evfolyam, user.osztaly))
 
         return user
 

@@ -16,6 +16,8 @@ class Role:
         if row is None:
             return None
 
+        print(row)
+
         return Role(row['name'], row['display_name'], row['id'])
 
     @staticmethod
@@ -31,7 +33,7 @@ class Role:
     @staticmethod
     def find_by_id(role_id):
         query = '''
-            SELECT `id`, `name`
+            SELECT *
             FROM `roles`
             WHERE `id` = %s;
         '''

@@ -24,14 +24,28 @@
             <tr>
                 <th><label for="role">Role</label></th>
                 <td>
-                    <select name="role_id" id="role" required>
+                    <select name="role_id" id="role" required onchange="diak()">
                         {% for role in roles %}
                             <option value="{{ role.role_id }}"{{ ' selected' if role.role_id == form.role_id else '' }}>
-                                {{ role.name }}
+                                {{ role.display_name }}
                             </option>
                         {% endfor %}
                     </select>
                 </td>
+            </tr>
+            <tr class="diakoknak">
+                <th><label for="evfolyam">Évfolyam</label></th>
+                <td>
+                    <select name="evfolyam" id="evfolyam" required>
+                        {% for i in range(5,9) %}
+                            <option value="{{ i }}"{{ ' selected' if form.evfolyam == i else '' }}>{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr class="diakoknak">
+                <th><label for="osztaly">Osztály</label></th>
+                <td><input type="text" maxlength="1" name="osztaly" id="osztaly" value="{{ form.osztaly }}" required></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -40,4 +54,31 @@
             </tr>
         </table>
     </form>
+
+    <script>
+        function diak() {
+            const role = document.getElementById('role').value;
+            const diakoknak = document.getElementsByClassName('diakoknak');
+            console.log(diakoknak);
+            if (role ==
+                {% for role in roles %}
+                    {% if role.name == 'DIAK' %}
+                        {{ role.role_id }}
+                    {% endif %}
+                {% endfor %}
+            ) {
+                for (let tr of diakoknak) {
+                    tr.style.display = '';
+                }
+                document.getElementById('osztaly').required = "required";
+            } else {
+                for (let tr of diakoknak) {
+                    tr.style.display = 'none';
+                }
+                document.getElementById('osztaly').required = "";
+            }
+        }
+
+        diak();
+    </script>
 {% endblock %}

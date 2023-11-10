@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `feladat`;
+DROP TABLE IF EXISTS `upload`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `teams`;
 DROP TABLE IF EXISTS `roles`;
@@ -5,31 +7,47 @@ DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
-    `display_name` VARCHAR(255) NOT NULL,
+    `display_name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
 );
 
 CREATE TABLE `teams` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `team_name` VARCHAR(255) NOT NULL,
-    `description` VARCHAR(255) NOT NULL,
+    `team_name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`team_name`)
 );
 
 CREATE TABLE `users` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(255) NOT NULL,
+    `username` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     `digest` VARCHAR(255) NOT NULL,
     `role_id` INT NOT NULL,
     `evfolyam` INT,
-    `jel` CHAR,
+    `osztaly` VARCHAR(1),
     `team_id` INT,
     PRIMARY KEY (`id`),
     UNIQUE (`username`),
     FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`),
     FOREIGN KEY (`team_id`) REFERENCES `teams`(`id`)
+);
+
+CREATE TABLE `upload` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+);
+
+CREATE TABLE `feladat` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `data` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    `number` INT NOT NULL,
+    `upload_id` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`upload_id`) REFERENCES `upload`(`id`)
 );
 
 INSERT INTO `roles`(`name`, `display_name`)

@@ -17,13 +17,13 @@
     <nav>
         {% if is_fully_authenticated() %}
             <div class="current-user">
-                {{ g.user.username }} [{{ g.user.role.name }}]
+                {{ g.user.username }} [{{ g.user.role.display_name }}]
             </div>
         {% endif %}
         <ul>
             <li><a href="{{ url_for('pages.home') }}">Homepage</a></li>
-            {% if has_role('ADMIN') %}
-                <li><a href="{{ url_for('roles.list_roles') }}">Roles</a></li>
+            {% if has_role('TANAR') %}
+                <li><a href="{{ url_for('feladat.feladat_list') }}">Feladatok</a></li>
             {% endif %}
             {% if is_fully_authenticated() %}
                 <li><a href="{{ url_for('users.list_users') }}">Users</a></li>
