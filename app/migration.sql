@@ -1,11 +1,21 @@
 DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `teams`;
 DROP TABLE IF EXISTS `roles`;
 
 CREATE TABLE `roles` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
+    `display_name` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`name`)
+);
+
+CREATE TABLE `teams` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `team_name` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE (`team_name`)
 );
 
 CREATE TABLE `users` (
@@ -13,15 +23,21 @@ CREATE TABLE `users` (
     `username` VARCHAR(255) NOT NULL,
     `digest` VARCHAR(255) NOT NULL,
     `role_id` INT NOT NULL,
+    `evfolyam` INT,
+    `jel` CHAR,
+    `team_id` INT,
     PRIMARY KEY (`id`),
     UNIQUE (`username`),
-    FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`)
+    FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`),
+    FOREIGN KEY (`team_id`) REFERENCES `teams`(`id`)
 );
 
-INSERT INTO `roles`(`name`)
+INSERT INTO `roles`(`name`, `display_name`)
 VALUES
-    ('ADMIN'),
-    ('USER');
+    ('ADMIN', 'Webmester'),
+    ('TANAR', 'Tanár'),
+    ('DIAK', 'Diák'),
+    ('ZSURI', 'Zsűri');
 
 INSERT INTO `users`(`username`, `digest`, `role_id`)
 VALUES

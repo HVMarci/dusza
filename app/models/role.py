@@ -2,9 +2,10 @@ from app.connection import fetchall, fetchone, execute
 
 
 class Role:
-    def __init__(self, name, role_id=None):
+    def __init__(self, name, display_name, role_id=None):
         self.role_id = role_id
         self.name = name
+        self.display_name = display_name
 
     @property
     def users(self):
@@ -15,14 +16,14 @@ class Role:
         if row is None:
             return None
 
-        return Role(row['name'], row['id'])
+        return Role(row['name'], row['display_name'], row['id'])
 
     @staticmethod
     def find_all():
         query = '''
-            SELECT `id`, `name`
+            SELECT `id`, `name`, `display_name`
             FROM `roles`
-            ORDER BY `name`;
+            ORDER BY `display_name`;
         '''
 
         return [Role.create_from_row(row) for row in fetchall(query)]
@@ -40,7 +41,7 @@ class Role:
     @staticmethod
     def find_by_name(name):
         query = '''
-            SELECT `id`, `name`
+            SELECT `id`, `name`, `display_name`
             FROM `roles`
             WHERE `name` = %s;
         '''

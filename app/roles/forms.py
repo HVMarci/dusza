@@ -2,8 +2,9 @@ from flask import request
 
 
 class RoleForm:
-    def __init__(self, name='', create=False):
+    def __init__(self, name='', display_name='', create=False):
         self.name = name
+        self.display_name = display_name
         self.create = create
         self.errors = []
 
@@ -12,10 +13,14 @@ class RoleForm:
             return False
 
         self.name = request.form.get('name', '').strip().upper()
+        self.display_name = request.get('display_name', '').strip()
         self.errors = []
 
         if self.name == '':
             self.errors.append('Name missing.')
+
+        if self.display_name == '':
+            self.errors.append('Display name missing.')
 
         return len(self.errors) == 0
 
