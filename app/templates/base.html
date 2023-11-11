@@ -25,6 +25,9 @@
             {% if has_role('TANAR') %}
                 <li><a href="{{ url_for('feladat.feladat_list') }}">Feladatok</a></li>
             {% endif %}
+            {% if has_role('DIAK') %}
+                <li><a href="{{ url_for('verseny.verseny_list') }}">Versenyek</a></li>
+            {% endif %}
             {% if is_fully_authenticated() %}
                 <li><a href="{{ url_for('users.list_users') }}">Users</a></li>
                 <li><a href="{{ url_for('pages.logout') }}">Logout</a></li>

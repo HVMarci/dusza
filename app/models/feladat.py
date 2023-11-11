@@ -1,3 +1,5 @@
+import random
+
 from app.connection import execute, fetchone, fetchall
 from app.models.user import User
 
@@ -9,6 +11,11 @@ class Feladat:
         self._upload = _upload
         self.strings = strings
         self.number = number
+
+    def scramble(self):
+        char_list = list(self.strings[3])
+        random.shuffle(char_list)
+        self.strings[3] = ''.join(char_list)
 
     @property
     def upload(self):
@@ -42,6 +49,14 @@ class Feladat:
         '''
 
         return [Feladat.create_from_row(row) for row in fetchall(query, (end - start, start))]
+
+    @staticmethod
+    def get_by_id(id):
+        query = '''
+        SELECT `id`, `data`, `number`, `upload_id` FROM `feladat` WHERE `id` = %s;
+        '''
+
+        return Feladat.create_from_row(fetchone(query, (id,)))
 
 
 class Upload:

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <table>
+    <thead>
+    <tr>
+        <th>Kezdődik</th>
+        <th>Végződik</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for verseny in versenyek %}
+        <tr>
+        <td>{{ format_epoch(verseny.kezdet) }}</td>
+        <td>{{ format_epoch(verseny.veg) }}</td>
+        <td>
+            {% if time() < verseny.kezdet or time() > verseny.veg or not has_role('DIAK') %}
+                <span>Nem elérhető</span>
+            {% else %}
+                <a href="{{ url_for('verseny.verseny_play', id=verseny.id) }}">Részvétel</a>
+            {% endif %}
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

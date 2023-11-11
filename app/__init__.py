@@ -22,4 +22,7 @@ def create_app(config_class=Config):
     from app.feladat import bp as feladat_bp
     app.register_blueprint(feladat_bp, url_prefix='/feladat')
 
+    from app.verseny import bp as verseny_bp
+    app.register_blueprint(verseny_bp, url_prefix='/verseny')
+
     return app
