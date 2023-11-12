@@ -2,7 +2,7 @@
 
 {% block main %}
     {% if versenyek|length > 0 %}
-        <table>
+        <table class="table table-striped">
         <thead>
         <tr>
             <th>Név</th>
@@ -29,18 +29,18 @@
                     {% if time() < verseny.kezdet or time() > verseny.veg or not has_role('DIAK') %}
                         <span>Nem elérhető</span>
                     {% else %}
-                        <a href="{{ url_for('verseny.verseny_play', id=verseny.id) }}">Részvétel</a>
+                        <a href="{{ url_for('verseny.verseny_play', id=verseny.id) }}" class="btn btn-dark">részvétel</a>
                     {% endif %}
                 </td>
             {% endif %}
             {% if has_role('ZSURI') %}
-                    <td><a href="{{ url_for('verseny.edit_verseny', verseny_id=verseny.id) }}">szerkesztés</a></td>
+                    <td><a href="{{ url_for('verseny.edit_verseny', verseny_id=verseny.id) }}" class="btn btn-dark">szerkesztés</a></td>
                     <td>
                         <form method="post" action="{{ url_for('verseny.delete_verseny', verseny_id=verseny.id) }}">
-                            <a href="#" onclick="confirm('Biztosan törli a versenyt?') && this.closest('form').submit()">törlés</a>
+                            <a href="#" onclick="confirm('Biztosan törli a versenyt?') && this.closest('form').submit()" class="btn btn-dark">törlés</a>
                         </form>
                     </td>
-                    <td><a href="{{ url_for('verseny.result', verseny_id=verseny.id) }}">eredmény</a></td>
+                    <td><a href="{{ url_for('verseny.result', verseny_id=verseny.id) }}" class="btn btn-dark">eredmény</a></td>
                 {% endif %}
             </tr>
         {% endfor %}

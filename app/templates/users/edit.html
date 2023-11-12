@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2>{{ 'Create' if form.create else 'Edit' }} user</h2>
+    <h2 style="margin: 10px">{{ 'Create' if form.create else 'Edit' }} user</h2>
 
     <form method="post" onsubmit="return confirm('{{ 'Create' if form.create else 'Save' }} user?')">
         {% if form.errors|length > 0 %}
@@ -12,7 +12,7 @@
         </ul>
         {% endif %}
 
-        <table>
+        <table style="margin: 10px">
             <tr>
                 <th><label for="username">Username</label></th>
                 <td><input type="text" name="username" value="{{ form.username }}" id="username" required></td>
@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button type="submit">{{ 'Create' if form.create else 'Save' }}</button>
+                    <button type="submit" class="btn btn-dark">{{ 'Create' if form.create else 'Save' }}</button>
                 </td>
             </tr>
         </table>

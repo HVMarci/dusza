@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2>Login</h2>
+    <h2 style="margin: 10px">Bejelentkezés</h2>
 
     <form method="post">
         {% if form.errors|length > 0 %}
@@ -12,17 +12,17 @@
         </ul>
         {% endif %}
 
-        <table>
+        <table style="margin: 10px">
             <tr>
-                <th><label for="username">Username</label></th>
+                <th><label for="username">Felhasználónév</label></th>
                 <td><input type="text" name="username" value="{{ form.username }}" id="username" required></td>
             </tr>
             <tr>
-                <th><label for="password">Password</label></th>
+                <th><label for="password">Jelszó</label></th>
                 <td><input type="password" name="password" value="{{ form.password }}" id="password" required></td>
             </tr>
             <tr>
-                <td colspan="2"><button type="submit">Login</button></td>
+                <td colspan="2"><button type="submit" class="btn btn-dark">Bejelentkezés</button></td>
             </tr>
         </table>
     </form>

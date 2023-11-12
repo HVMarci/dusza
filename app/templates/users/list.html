@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2>List users</h2>
-    <table>
+    <h2 style="margin: 10px">List users</h2>
+    <table style="margin: 10px" class="table table-striped">
         <thead>
         <tr>
             <th>Id</th>
@@ -33,6 +33,6 @@
     </table>
 
     {% if has_role('ADMIN') %}
-        <p><a href="{{ url_for('users.create_user') }}">Create user</a></p>
+        <p style="margin: 10px"><a href="{{ url_for('users.create_user') }}" class="btn btn-dark">Create user</a></p>
     {% endif %}
 {% endblock %}

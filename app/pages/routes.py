@@ -19,7 +19,7 @@ def login():
 
         if user is not None and user.check_password(form.password):
             session['user_id'] = user.user_id
-            flash('Login successful.')
+            flash('Sikeres bejelentkezés.')
 
             if request.args.get('redirect') is not None \
                     and urlsplit(request.args.get('redirect')).netloc == '':
@@ -27,7 +27,7 @@ def login():
 
             return redirect(url_for('pages.home'))
         else:
-            form.errors.append('Wrong username or password.')
+            form.errors.append('Hibás felhasználónév vagy jelszó.')
 
     return render_template('pages/login.html', form=form)
 

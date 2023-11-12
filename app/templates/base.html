@@ -3,51 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flask starter</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <title>Online játékos vetélkedő</title>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">-->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='ojv-favicon.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        header {
+            background-color: #FFCC00;
+            padding: 5px;
+        }
+        footer {
+            background-color: #FFCC00;
+        }
+        html {
+          height: 100%;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .alert {
+            width: 15%;
+            height: 10%;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
 
 <header>
     <h1>
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
-        Flask starter
+        <img style="width: 7.5%" src="{{ url_for('static', filename='ojv.png') }}" alt="logo">
+        ONLINE JÁTÉKOS VETÉLKEDŐ
     </h1>
 
     <nav>
         {% if is_fully_authenticated() %}
-            <div class="current-user">
+            <div style="margin: 10px" class="current-user">
                 {{ g.user.username }} [{{ g.user.role.display_name }}]
             </div>
         {% endif %}
-        <ul>
-            <li><a href="{{ url_for('pages.home') }}">Homepage</a></li>
+            <a style="margin-left: 10px; margin-bottom: 5px" href="{{ url_for('pages.home') }}"  class="btn btn-dark" role="button">Főoldal</a>
             {% if has_role('TANAR') %}
-                <li><a href="{{ url_for('feladat.feladat_list') }}">Feladatok</a></li>
+                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('feladat.feladat_list') }}" class="btn btn-dark" role="button">Feladatok</a>
             {% endif %}
             {% if is_fully_authenticated() %}
-                <li><a href="{{ url_for('teams.list_teams') }}">Csapatok</a></li>
+                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('teams.list_teams') }}" class="btn btn-dark" role="button">Csapatok</a>
             {% endif %}
             {% if is_fully_authenticated() %}
-                <li><a href="{{ url_for('verseny.verseny_list') }}">Versenyek</a></li>
+                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('verseny.verseny_list') }}" class="btn btn-dark" role="button">Versenyek</a>
             {% endif %}
             {% if is_fully_authenticated() %}
-                <li><a href="{{ url_for('users.list_users') }}">Users</a></li>
-                <li><a href="{{ url_for('pages.logout') }}">Logout</a></li>
+                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('users.list_users') }}" class="btn btn-dark" role="button">Felhasználók</a>
+                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('pages.logout') }}" class="btn btn-dark" role="button">Kijelentkezés</a>
             {% else %}
-                <li><a href="{{ url_for('pages.login') }}">Login</a></li>
+               <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('pages.login') }}" class="btn btn-dark" role="button">Bejelentkezés</a>
             {% endif %}
-        </ul>
+
     </nav>
+
 </header>
 
 <main>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
-                <h3>{{ message }}</h3>
+                <h3 style="margin: 10px" class="alert alert-success alert-dismissible fade show">{{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </h3>
             {% endfor %}
         {% endif %}
     {% endwith %}
@@ -56,7 +80,7 @@
 </main>
 
 <footer>
-    <div>Copyright © 2023</div>
+    <div style="margin: 10px">Copyright © 2023</div>
 </footer>
 
 <script src="{{ url_for('static', filename='js/base.js') }}"></script>
