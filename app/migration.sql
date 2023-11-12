@@ -26,7 +26,9 @@ CREATE TABLE `teams` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `team_name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    `verseny_id` INT NOT NULL,
+    `evfolyam` INT NOT NULL,
+    `osztaly` VARCHAR(1) NOT NULL,
+    `verseny_id` INT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`verseny_id`) REFERENCES `verseny`(`id`),
     UNIQUE (`team_name`)
@@ -37,9 +39,13 @@ CREATE TABLE `users` (
     `username` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     `digest` VARCHAR(255) NOT NULL,
     `role_id` INT NOT NULL,
-    `evfolyam` INT,
-    `osztaly` VARCHAR(1),
-    `team_id` INT,
+    -- diákoknak
+    `evfolyam` INT NULL,
+    `osztaly` VARCHAR(1) NULL,
+    `team_id` INT NULL,
+    `progress` INT NULL,
+    `helyes` INT NULL,
+
     PRIMARY KEY (`id`),
     UNIQUE (`username`),
     FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`),
@@ -79,11 +85,11 @@ VALUES (
         1705000000
        );
 
-INSERT INTO `teams`(`team_name`, `description`, `verseny_id`)
+INSERT INTO `teams`(`team_name`, `description`, `verseny_id`, `evfolyam`, `osztaly`)
 VALUES
-    ('Csapat1', 'CS', 1),
-    ('Csapat2', 'CS', 2),
-    ('Csapat4', 'CS', 1)
+    ('Csapat1', 'CS', 1, 5, 'j'),
+    ('Csapat2', 'CS', 2, 7, 'a'),
+    ('Csapat4', 'CS', 1, 8, 'b')
 ;
 
 INSERT INTO `roles`(`name`, `display_name`)

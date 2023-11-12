@@ -25,4 +25,7 @@ def create_app(config_class=Config):
     from app.verseny import bp as verseny_bp
     app.register_blueprint(verseny_bp, url_prefix='/verseny')
 
+    from app.teams import bp as teams_bp
+    app.register_blueprint(teams_bp, url_prefix='/teams')
+
     return app

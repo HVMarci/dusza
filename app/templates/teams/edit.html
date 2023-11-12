@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>{{ 'Create' if form.create else 'Edit' }} user</h2>
+
+    <form method="post" onsubmit="return confirm('{{ 'Create' if form.create else 'Save' }} team?')">
+        {% if form.errors|length > 0 %}
+        <ul>
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <table>
+            <tr>
+                <th><label for="team_name">Csapatnév</label></th>
+                <td><input type="text" name="team_name" value="{{ form.team_name }}" id="team_name" required></td>
+            </tr>
+            <tr>
+                <th><label for="description">Leírás</label></th>
+                <td><input type="text" name="description" value="{{ form.description }}" id="description" required></td>
+            </tr>
+            <tr>
+                <th><label for="evfolyam">Évfolyam</label></th>
+                <td>
+                    <select name="evfolyam" id="evfolyam" required>
+                        {% for i in range(5,9) %}
+                            <option value="{{ i }}"{{ ' selected' if form.evfolyam == i else '' }}>{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><label for="osztaly">Osztály</label></th>
+                <td><input type="text" maxlength="1" name="osztaly" id="osztaly" value="{{ form.osztaly }}" required></td>
+            </tr>
+            {% for i in range(3) %}
+                <tr>
+                    <th><label for="diak{{ i }}">{{ i+1 }}. diák:</label></th>
+                    <td>
+                        <select name="diak{{ i }}" id="diak{{ i }}" required></select>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2">
+                    <button type="submit">{{ 'Create' if form.create else 'Save' }}</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        const users = {
+        {% for i in range(5,9) %}
+            '{{ i }}': [{% for user in find_by_evfolyam(i) %}
+                {% if user.role_id == 3 %}
+                    { id: {{ user.user_id }}, username: '{{ user.username }}', osztaly: '{{ user.osztaly }}' },
+                {% endif %}
+            {% endfor %}],
+        {% endfor %}
+        };
+
+        function osztaly() {
+            const evfolyam = parseInt(document.getElementById('evfolyam').value)
+            const osztaly = document.getElementById('osztaly').value
+
+            for (let i = 0; i < 3; i++) {
+                const sel = document.getElementById('diak' + i);
+
+                sel.innerHTML = '';
+
+                for (let user of users[evfolyam]) {
+                    //console.log(user, osztaly);
+                    if (user.osztaly == osztaly) {
+                        let op = document.createElement('option');
+                        op.value = user.id;
+                        op.innerText = user.username;
+                        if ([{% for user_id in form.user_ids %}{{ user_id }}{{ ', ' if not loop.last }}{% endfor %}][i] == user.id) {
+                            op.selected = 'selected';
+                        }
+
+                        sel.appendChild(op);
+                    }
+                }
+            }
+        }
+        osztaly();
+        document.getElementById('evfolyam').onchange = osztaly;
+        document.getElementById('osztaly').onchange = osztaly;
+    </script>
+{% endblock %}

@@ -4,7 +4,7 @@ from app.models.feladat import Feladat
 from app.models.verseny import Verseny
 from app.verseny import bp
 
-from flask import render_template, flash, redirect, url_for, abort
+from flask import render_template, flash, redirect, url_for, abort, g, request
 from pymysql import IntegrityError
 
 from app.models.role import Role
@@ -22,7 +22,10 @@ def format_epoch(epoch_time):
 @bp.route('/')
 @has_role('DIAK')
 def verseny_list():
-    versenyek = Verseny.get_all()
+    versenyek = []
+
+    if g.user.team_id and g.user.team.verseny_id:
+        versenyek.append(Verseny.find_by_id(g.user.team.verseny_id))
 
     return render_template('verseny/list.html', versenyek=versenyek, time=time, format_epoch=format_epoch)
 
@@ -30,7 +33,16 @@ def verseny_list():
 @bp.route('/play/<id>', methods=('get', 'post'))
 @has_role('DIAK')
 def verseny_play(id):
-    feladat = Feladat.get_by_id(randint(1,4))
-    feladat.scramble()
+    feladat, hossz = Feladat.get_by_progress(g.user.progress, g.user.team.verseny_id)
+
+    if request.method == 'POST':
+        if request.get_data('megoldas'):
+            g.user.helyes += 1
+        g.user.progress += 1
+        User.save(g.user)
+
+    if g.user.progress == hossz+1:
+        flash('Vége a versenynek!')
+        return redirect(url_for('verseny.list_verseny'))
 
     return render_template('verseny/play.html', feladat=feladat)

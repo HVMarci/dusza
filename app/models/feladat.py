@@ -5,29 +5,36 @@ from app.models.user import User
 
 
 class Feladat:
-    def __init__(self, strings, number, id=None, upload_id=None, _upload=None):
+    def __init__(self, strings, number, id=None, upload_id=None, upload=None):
         self.id = id
-        self.upload_id = upload_id
-        self._upload = _upload
+        self._upload_id = upload_id
+        self._upload = upload
         self.strings = strings
         self.number = number
-
-    def scramble(self):
-        char_list = list(self.strings[3])
-        random.shuffle(char_list)
-        self.strings[3] = ''.join(char_list)
+        self.scrambled = strings[3]
+        random.shuffle(self.scrambled)
+        self.scrambled = ''.join(self.scrambled)
 
     @property
     def upload(self):
-        if self._upload is None and self.upload_id:
-            self._upload = Upload.find_by_id(self.upload_id)
+        if self._upload is None and self._upload_id:
+            self._upload = Upload.find_by_id(self._upload_id)
 
         return self._upload
 
     @upload.setter
-    def upload(self, _upload):
-        self._upload = _upload
-        self.upload_id = _upload.id
+    def upload(self, upload):
+        self._upload = upload
+        self._upload_id = upload.id
+
+    @property
+    def upload_id(self):
+        return self._upload_id
+
+    @upload_id.setter
+    def upload_id(self, upload_id):
+        self._upload_id = upload_id
+        self._upload = None
 
     @staticmethod
     def create_from_row(row):
@@ -57,6 +64,16 @@ class Feladat:
         '''
 
         return Feladat.create_from_row(fetchone(query, (id,)))
+
+    @staticmethod
+    def get_by_progress(progress, verseny_id):
+        query = '''
+        SELECT `verseny_id`, `feladat_id` FROM `verseny_feladat` WHERE `verseny_id` = %s ORDER BY `feladat_id`;
+        '''
+
+        rows = fetchall(query, (verseny_id,))
+
+        return Feladat.get_by_id(rows[progress]['feladat_id']), len(rows)
 
 
 class Upload:

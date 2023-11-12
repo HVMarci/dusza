@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Csapatok listája</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Azonosító</th>
+            <th>Csapatnév</th>
+            <th>Leírás</th>
+            <th>Osztály</th>
+            {% if has_role('ADMIN') %}
+                <th colspan="2"></th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+            <tr>
+                <td>{{ team.id }}</td>
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.description }}</td>
+                <td>{{ team.evfolyam }}. {{ team.osztaly }}</td>
+                {% if has_role('ADMIN') %}
+                    <td><a href="{{ url_for('teams.edit_team', team_id=team.id) }}">szerkesztés</a></td>
+                    <td>
+                        <form method="post" action="{{ url_for('teams.delete_team', team_id=team.id) }}">
+                            <a href="#" onclick="confirm('Biztosan törölni szeretné a csapatot?') && this.closest('form').submit()">törlés</a>
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if has_role('ADMIN') %}
+        <p><a href="{{ url_for('teams.create_team') }}">Új csapat</a></p>
+    {% endif %}
+{% endblock %}
