@@ -11,9 +11,15 @@ class Feladat:
         self._upload = upload
         self.strings = strings
         self.number = number
-        self.scrambled = strings[3]
-        random.shuffle(self.scrambled)
-        self.scrambled = ''.join(self.scrambled)
+        self.scrambled = self.strings[3]
+        if self.id:
+            i = self.id + 123456
+            while self.scrambled == self.strings[3]:
+                scrambled = bytearray(strings[3].encode('utf-8'))
+                random.seed(i)
+                random.shuffle(scrambled)
+                self.scrambled = ''.join(scrambled.decode('utf-8'))
+                i += 1
 
     @property
     def upload(self):
@@ -42,23 +48,53 @@ class Feladat:
 
     @staticmethod
     def save(feladat):
-        query = '''
-        INSERT INTO `feladat`(`data`, `number`, `upload_id`)
-        VALUES (%s, %s, %s);
-        '''
+        if feladat.id:
+            query = '''
+                    UPDATE `feladat`
+                    SET `data` = %s,
+                        `number` = %s,
+                        `upload_id` = %s
+                    WHERE `id` = %s;
+                '''
 
-        feladat.id = execute(query, (' '.join(feladat.strings), feladat.number, feladat.upload.id))
+            execute(query, (' '.join(feladat.strings), feladat.number, feladat.upload_id, feladat.id))
+        else:
+            query = '''
+            INSERT INTO `feladat`(`data`, `number`, `upload_id`)
+            VALUES (%s, %s, %s);
+            '''
+
+            feladat.id = execute(query, (' '.join(feladat.strings), feladat.number, feladat.upload.id))
+
+        return feladat
 
     @staticmethod
-    def find_in_range(start, end):
-        query = '''
-        SELECT `id`,`data`,`number`,`upload_id` FROM `feladat` ORDER BY `id` LIMIT %s OFFSET %s;
+    def add_to_verseny(feladat_id, verseny_id):
+        query ='''
+        INSERT INTO `verseny_feladat`(`verseny_id`, `feladat_id`)
+        VALUES (%s, %s);
         '''
 
-        return [Feladat.create_from_row(row) for row in fetchall(query, (end - start, start))]
+        execute(query, (verseny_id, feladat_id))
 
     @staticmethod
-    def get_by_id(id):
+    def find_by_verseny(verseny_id):
+        query = '''
+        SELECT `feladat_id` FROM `verseny_feladat` WHERE `verseny_id` = %s;
+        '''
+
+        return [row['feladat_id'] for row in fetchall(query, (verseny_id,))]
+
+    @staticmethod
+    def find_all():
+        query = '''
+        SELECT `id`,`data`,`number`,`upload_id` FROM `feladat` ORDER BY `id`;
+        '''
+
+        return [Feladat.create_from_row(row) for row in fetchall(query)]
+
+    @staticmethod
+    def find_by_id(id):
         query = '''
         SELECT `id`, `data`, `number`, `upload_id` FROM `feladat` WHERE `id` = %s;
         '''
@@ -66,14 +102,26 @@ class Feladat:
         return Feladat.create_from_row(fetchone(query, (id,)))
 
     @staticmethod
-    def get_by_progress(progress, verseny_id):
+    def find_by_progress(progress, verseny_id):
         query = '''
         SELECT `verseny_id`, `feladat_id` FROM `verseny_feladat` WHERE `verseny_id` = %s ORDER BY `feladat_id`;
         '''
 
         rows = fetchall(query, (verseny_id,))
 
-        return Feladat.get_by_id(rows[progress]['feladat_id']), len(rows)
+        if progress >= len(rows):
+            return None, len(rows)
+
+        return Feladat.find_by_id(rows[progress]['feladat_id']), len(rows)
+
+    @staticmethod
+    def delete(id):
+        query = '''
+                DELETE FROM `feladat`
+                WHERE `id` = %s;
+            '''
+
+        execute(query, (id,))
 
 
 class Upload:

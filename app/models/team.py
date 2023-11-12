@@ -10,6 +10,10 @@ class Team:
         self.verseny_id = verseny_id
         self.id = id
 
+    def __repr__(self):
+        return (f"Team(team_name={self.team_name},description={self.description}, evfolyam={self.evfolyam},"
+                f"osztaly={self.evfolyam}, verseny_id={self.verseny_id}, id={self.id}")
+
     @staticmethod
     def create_from_row(row):
         return Team(row['team_name'], row['description'], row['evfolyam'], row['osztaly'], row['verseny_id'], row['id'])
@@ -22,6 +26,15 @@ class Team:
         '''
 
         return Team.create_from_row(fetchone(query, (id,)))
+
+    @staticmethod
+    def find_by_verseny(verseny_id):
+        query = '''
+                SELECT `id`, `team_name`, `description`, `evfolyam`, `osztaly`, `verseny_id` FROM `teams`
+                WHERE `verseny_id` = %s;
+                '''
+
+        return [Team.create_from_row(row) for row in fetchall(query, (verseny_id,))]
 
     @staticmethod
     def find_all():

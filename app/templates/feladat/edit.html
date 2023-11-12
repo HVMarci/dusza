@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+elérhető
+{% block main %}
+    <h2>Feladat szerkesztése</h2>
+
+    <form method="post" onsubmit="return confirm('Elmenti a változtatásokat?')">
+        {% if form.errors|length > 0 %}
+        <ul>
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <table>
+            {% for i in range(1,5) %}
+            <tr>
+                <th><label for="szo{{ i }}">{{ i }}. szó: </label></th>
+                <td><input type="text" name="szo{{ i }}" value="{{ form['szo' ~ (i)] }}" id="szo{{ i }}" required></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <th><label for="evfolyam">Évfolyam</label></th>
+                <td>
+                    <select name="evfolyam" id="evfolyam" required>
+                        {% for i in range(5,9) %}
+                            <option value="{{ i }}"{{ ' selected' if form.evfolyam == i else '' }}>{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">Mentés</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

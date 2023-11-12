@@ -5,7 +5,7 @@ from app.models.team import Team
 
 
 class User:
-    def __init__(self, username, digest=None, role_id=None, user_id=None, evfolyam=5, osztaly='', team_id=None, progress=0, helyes=0, password=None, _team=None):
+    def __init__(self, username, digest=None, role_id=None, user_id=None, evfolyam=5, osztaly='', team_id=None, progress=1, helyes=0, password=None, _team=None):
         self.user_id = user_id
         self.username = username
         self.digest = digest
@@ -14,6 +14,10 @@ class User:
         self.evfolyam = evfolyam
         self.osztaly = osztaly
         self._team_id = team_id
+        if progress is None:
+            progress = 1
+        if helyes is None:
+            helyes = 0
         self.progress = progress
         self.helyes = helyes
         self._team = _team
@@ -61,14 +65,14 @@ class User:
             return None
 
         return User(row['username'], row['digest'], row['role_id'], row['id'], row['evfolyam'], row['osztaly'],
-                    row['team_id'], row['helyes'], row['progress'])
+                    row['team_id'], row['progress'], row['helyes'])
 
     @staticmethod
     def find_all():
         query = '''
             SELECT `id`, `username`, `digest`, `role_id`, `evfolyam`, `osztaly`, `team_id`, `helyes`, `progress`
             FROM `users`
-            ORDER BY `username`;
+            ORDER BY `role_id`, `username`;
         '''
 
         return [User.create_from_row(row) for row in fetchall(query)]

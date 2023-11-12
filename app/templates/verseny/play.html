@@ -3,9 +3,10 @@
 {% block main %}
     <h2>Feladat</h2>
     <div>
-        {% for i in range(4) %}
+        {% for i in range(3) %}
             <span>{{ feladat.strings[i] }}</span>
         {% endfor %}
+        <span>{{ feladat.scrambled }}</span>
     </div>
     <form method="post">
         <label for="megoldas">Megoldás: </label>

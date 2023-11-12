@@ -9,8 +9,11 @@ DROP TABLE IF EXISTS `verseny`;
 
 CREATE TABLE `verseny` (
     `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255) NOT NULL,
     `kezdet` INT NOT NULL,
     `veg` INT NOT NULL,
+    `evfolyam` INT NOT NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -76,13 +79,19 @@ CREATE TABLE `verseny_feladat` (
     FOREIGN KEY (`feladat_id`) REFERENCES `feladat`(`id`)
 );
 
-INSERT INTO `verseny`(`kezdet`, `veg`)
+INSERT INTO `verseny`(`name`, `description`, `kezdet`, `veg`, `evfolyam`)
 VALUES (
+        'Verseny1',
+        'ötödikeseknek versenyecske',
         1699696112,
-        1700000000
+        1700000000,
+        5
        ),(
+        'Verseny2',
+        'Szintén',
         1709696112,
-        1705000000
+        1705000000,
+        5
        );
 
 INSERT INTO `teams`(`team_name`, `description`, `verseny_id`, `evfolyam`, `osztaly`)

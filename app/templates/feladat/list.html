@@ -10,14 +10,25 @@
             <th>4. Szó</th>
             <th>Évfolyam</th>
             <th>Tanár</th>
+            {% if has_role('TANAR') %}
+                <th colspan="2"></th>
+            {% endif %}
         </tr>
         {% for feladat in feladatok %}
             <tr>
-            {% for i in range(0,4) %}
+            {% for i in range(4) %}
                 <td>{{ feladat.strings[i] }}</td>
             {% endfor %}
             <td>{{ feladat.number }}</td>
             <td>{{ feladat.upload.user.username }}</td>
+            {% if has_role('TANAR') and g.user.user_id == feladat.upload.user_id %}
+                <td><a href="{{ url_for('feladat.edit_feladat', feladat_id=feladat.id) }}">szerkesztés</a></td>
+                <td>
+                    <form method="post" action="{{ url_for('feladat.delete_feladat', feladat_id=feladat.id) }}">
+                        <a href="#" onclick="confirm('Biztosan törli a feladatot?') && this.closest('form').submit()">törlés</a>
+                    </form>
+                </td>
+            {% endif %}
             </tr>
         {% endfor %}
     </table>

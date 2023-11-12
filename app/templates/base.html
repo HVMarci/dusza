@@ -30,7 +30,7 @@
             {% if is_fully_authenticated() %}
                 <li><a href="{{ url_for('teams.list_teams') }}">Csapatok</a></li>
             {% endif %}
-            {% if has_role('DIAK') %}
+            {% if is_fully_authenticated() %}
                 <li><a href="{{ url_for('verseny.verseny_list') }}">Versenyek</a></li>
             {% endif %}
             {% if is_fully_authenticated() %}

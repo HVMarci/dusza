@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2>{{ 'Create' if form.create else 'Edit' }} user</h2>
+    <h2>Csapat {{ 'létrehozása' if form.create else 'szerkesztése' }}</h2>
 
     <form method="post" onsubmit="return confirm('{{ 'Create' if form.create else 'Save' }} team?')">
         {% if form.errors|length > 0 %}
@@ -71,6 +71,13 @@
 
                 sel.innerHTML = '';
 
+                let op_def = document.createElement('option');
+                op_def.value = '0';
+                op_def.innerText = '-- Válasszon diákot --';
+                op_def.disabled = 'disabled';
+                op_def.hidden = 'hidden';
+                let has_sel = false;
+                sel.append(op_def);
                 for (let user of users[evfolyam]) {
                     //console.log(user, osztaly);
                     if (user.osztaly == osztaly) {
@@ -79,11 +86,13 @@
                         op.innerText = user.username;
                         if ([{% for user_id in form.user_ids %}{{ user_id }}{{ ', ' if not loop.last }}{% endfor %}][i] == user.id) {
                             op.selected = 'selected';
+                            has_sel = true;
                         }
 
                         sel.appendChild(op);
                     }
                 }
+                if (!has_sel) op_def.selected = 'selected';
             }
         }
         osztaly();

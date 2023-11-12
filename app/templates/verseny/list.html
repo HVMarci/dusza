@@ -5,22 +5,43 @@
         <table>
         <thead>
         <tr>
+            <th>Név</th>
+            <th>Leírás</th>
             <th>Kezdődik</th>
             <th>Végződik</th>
+            {% if has_role('DIAK') %}
+                <th></th>
+            {% endif %}
+            {% if has_role('ZSURI') %}
+                <th colspan="3"></th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
         {% for verseny in versenyek %}
             <tr>
+            <td>{{ verseny.name }}</td>
+            <td>{{ verseny.description }}</td>
             <td>{{ format_epoch(verseny.kezdet) }}</td>
             <td>{{ format_epoch(verseny.veg) }}</td>
-            <td>
-                {% if time() < verseny.kezdet or time() > verseny.veg or not has_role('DIAK') %}
-                    <span>Nem elérhető</span>
-                {% else %}
-                    <a href="{{ url_for('verseny.verseny_play', id=verseny.id) }}">Részvétel</a>
+            {% if has_role('DIAK') %}
+                <td>
+                    {% if time() < verseny.kezdet or time() > verseny.veg or not has_role('DIAK') %}
+                        <span>Nem elérhető</span>
+                    {% else %}
+                        <a href="{{ url_for('verseny.verseny_play', id=verseny.id) }}">Részvétel</a>
+                    {% endif %}
+                </td>
+            {% endif %}
+            {% if has_role('ZSURI') %}
+                    <td><a href="{{ url_for('verseny.edit_verseny', verseny_id=verseny.id) }}">szerkesztés</a></td>
+                    <td>
+                        <form method="post" action="{{ url_for('verseny.delete_verseny', verseny_id=verseny.id) }}">
+                            <a href="#" onclick="confirm('Biztosan törli a versenyt?') && this.closest('form').submit()">törlés</a>
+                        </form>
+                    </td>
+                    <td><a href="{{ url_for('verseny.result', verseny_id=verseny.id) }}">eredmény</a></td>
                 {% endif %}
-            </td>
             </tr>
         {% endfor %}
         </tbody>

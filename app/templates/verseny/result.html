@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <table>
+    <thead>
+    <tr><th>Helyezés</th>
+    <th>Csapatnév</th>
+    <th>Pontszám</th></tr>
+    </thead>
+    <tbody>
+    {% for team in teams %}
+        <tr>
+        <td>{{ team.helyezes }}</td>
+        <td>{{ team.team_name }}</td>
+        <td>{{ team.pont }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

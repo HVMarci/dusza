@@ -19,34 +19,34 @@ def list_teams():
 @bp.route('/create', methods=('get', 'post'))
 @has_role('ADMIN')
 def create_team():
-    return abort(503)
-    ''''
-    form = UserForm(
+    form = TeamForm(
         create=True
     )
 
     if form.validate_on_submit():
         try:
-            user = User(
-                username=form.username,
-                password=form.password,
-                role_id=form.role_id,
+            team = Team(
+                team_name=form.team_name,
+                description=form.description,
                 evfolyam=form.evfolyam,
                 osztaly=form.osztaly
             )
 
-            User.save(user)
-            flash('User created.')
+            Team.save(team)
+            for user_id in form.user_ids:
+                user = User.find_by_id(user_id)
+                user.team_id = team.id
+                User.save(user)
 
-            return redirect(url_for('users.list_users'))
+            flash('Csapat létrehozva.')
+
+            return redirect(url_for('teams.list_teams'))
         except IntegrityError as e:
             form.errors.append(str(e))
 
-    roles = Role.find_all()
-
     print(form.evfolyam, form.osztaly)
-    return render_template('users/edit.html', form=form, roles=roles)
-    '''
+    return render_template('teams/edit.html', form=form, find_by_evfolyam=User.find_by_evfolyam)
+
 
 @bp.route('/edit/<team_id>', methods=('get', 'post'))
 @has_role('ADMIN')
@@ -69,14 +69,18 @@ def edit_team(team_id):
             team.user_ids = form.user_ids
 
             Team.save(team)
+            i=0
             for user_id in team.user_ids:
                 user = User.find_by_id(user_id)
                 user.team_id = team.id
+                user.progress=i
+                user.helyes=0
+                i += 1
                 User.save(user)
 
             flash('Csapat elmentve.')
 
-            return redirect(url_for('teams.edit_team', team_id=team_id))
+            return redirect(url_for('teams.list_teams'))
         except IntegrityError as e:
             form.errors.append(str(e))
 

@@ -1,5 +1,7 @@
 from flask import request
 
+from app.models.user import User
+
 
 class TeamForm:
     def __init__(self, team_name='', description='', user_ids=(0,0,0), evfolyam=5, osztaly='', create=False):
@@ -33,16 +35,18 @@ class TeamForm:
             self.errors.append('Az évfolyam hibás.')
 
         try:
-            user_ids = ()
+            self.user_ids = ()
+            users = []
             for i in range(3):
-                user_ids += (int(request.form.get(f'diak{i}').strip()),)
+                self.user_ids += (int(request.form.get(f'diak{i}').strip()),)
+                users.append(User.find_by_id(self.user_ids[i]))
+                if not users[i] or users[i].osztaly != self.osztaly or users[i].evfolyam != self.evfolyam:
+                    self.errors.append(f'Hibás felhasználó: {users[i].username}')
 
-            if len(user_ids) != len(set(user_ids)):
+            if len(self.user_ids) != len(set(self.user_ids)):
                 self.errors.append('Ismétlődő felhasználó!')
 
-            if 0 in user_ids:
-                self.errors.append('Hibás felhasználóválasztás.')
-        except ValueError as e:
+        except Exception as e:
             self.errors.append('Nincs elég felhasználó kiválasztva.')
 
         return len(self.errors) == 0
