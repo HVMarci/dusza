@@ -17,12 +17,22 @@ class UserForm:
         if request.method != 'POST':
             return False
 
+        self.errors = []
         self.username = request.form.get('username', '').strip()
         self.password = request.form.get('password', '')
-        self.role_id = int(request.form.get('role_id', '0'))
-        self.evfolyam = int(request.form.get('evfolyam', '0'))
+        try:
+            self.role_id = int(request.form.get('role_id', '0'))
+        except ValueError as e:
+            self.errors.append('Hibás a szerepkör azonosítója.')
+
+        try:
+            self.evfolyam = int(request.form.get('evfolyam', '0'))
+        except ValueError as e:
+            self.errors.append('Hibás az évfolyam.')
         self.osztaly = request.form.get('osztaly', '')
-        self.errors = []
+
+        if len(self.osztaly) != 1:
+            self.errors.append('Hibás az osztály.')
 
         if self.username == '':
             self.errors.append('Hiányzik a felhasználónév.')

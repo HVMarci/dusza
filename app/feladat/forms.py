@@ -42,7 +42,10 @@ class EditForm:
         self.szo2 = request.form.get('szo2').strip()
         self.szo3 = request.form.get('szo3').strip()
         self.szo4 = request.form.get('szo4').strip()
-        self.evfolyam = int(request.form.get('evfolyam'))
+        try:
+            self.evfolyam = int(request.form.get('evfolyam'))
+        except ValueError as e:
+            self.errors.append('Hibás az évfolyam.')
 
         if (len(self.szo4) < 3):
             self.errors.append('A 4. szónak legalább 3 betű hosszúnak kell lennie!')

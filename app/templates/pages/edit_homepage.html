@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 
 {% block main %}
+    {% if form.errors|length > 0 %}
+        {% for error in form.errors %}
+            <h3 class="alert alert-danger alert-dismissible fade show">{{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </h3>
+        {% endfor %}
+    {% endif %}
+
     <h2>Főoldal szerkesztése</h2>
     <form method="POST">
     <table>

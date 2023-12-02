@@ -42,7 +42,6 @@ def create_user():
 
     roles = Role.find_all()
 
-    print(form.evfolyam, form.osztaly)
     return render_template('users/edit.html', form=form, roles=roles)
 
 

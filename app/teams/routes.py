@@ -45,7 +45,6 @@ def create_team():
         except IntegrityError as e:
             form.errors.append(str(e))
 
-    print(form.evfolyam, form.osztaly)
     return render_template('teams/edit.html', form=form, find_by_evfolyam=User.find_by_evfolyam)
 
 

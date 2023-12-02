@@ -20,9 +20,15 @@ class TeamForm:
 
         self.team_name = request.form.get('team_name', '').strip()
         self.description = request.form.get('description', '').strip()
-        self.evfolyam = int(request.form.get('evfolyam', '0'))
+        try:
+            self.evfolyam = int(request.form.get('evfolyam', '0'))
+        except ValueError as e:
+            self.errors.append('Hibás az évfolyam.')
         self.osztaly = request.form.get('osztaly', '').strip()
-        self.verseny_id = int(request.form.get('verseny_id').strip())
+        try:
+            self.verseny_id = int(request.form.get('verseny_id').strip())
+        except ValueError as e:
+            self.errors.append('Hibás a verseny azonosítója.')
 
         if self.team_name == '':
             self.errors.append('Hiányzik a csapatnév.')
