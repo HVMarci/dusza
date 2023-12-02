@@ -25,13 +25,13 @@ class UserForm:
         self.errors = []
 
         if self.username == '':
-            self.errors.append('Username missing.')
+            self.errors.append('Hiányzik a felhasználónév.')
 
         if self.create and self.password == '':
-            self.errors.append('Password missing.')
+            self.errors.append('Hiányzik a jelszó.')
 
         if self.role_id == Role.find_by_name("DIAK").role_id:
             if self.osztaly == '':
-                self.errors.append('Évfolyam vagy osztály hiányzik.')
+                self.errors.append('Hiányzik az évfolyam vagy az osztály.')
 
         return len(self.errors) == 0

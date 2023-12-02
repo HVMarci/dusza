@@ -3,7 +3,7 @@
 {% block main %}
     <h2>Csapat {{ 'létrehozása' if form.create else 'szerkesztése' }}</h2>
 
-    <form method="post" onsubmit="return confirm('{{ 'Create' if form.create else 'Save' }} team?')">
+    <form method="post" onsubmit="return confirm('Biztosan {{ 'létrehozza' if form.create else 'szerkeszti' }} a csapatot?')">
         {% if form.errors|length > 0 %}
         <ul>
             {% for error in form.errors %}
@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button type="submit">{{ 'Create' if form.create else 'Save' }}</button>
+                    <button type="submit" class="btn btn-dark">{{ 'Létrehozás' if form.create else 'Mentés' }}</button>
                 </td>
             </tr>
         </table>

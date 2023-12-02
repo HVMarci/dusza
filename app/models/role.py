@@ -16,8 +16,6 @@ class Role:
         if row is None:
             return None
 
-        print(row)
-
         return Role(row['name'], row['display_name'], row['id'])
 
     @staticmethod

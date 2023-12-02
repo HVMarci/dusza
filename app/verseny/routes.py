@@ -112,7 +112,7 @@ def edit_verseny(verseny_id):
             for sel in form.feladatok:
                 Feladat.add_to_verseny(sel, verseny.id)
 
-            flash('Verseny elmentve.')
+            flash('Verseny módosítva.')
 
             return redirect(url_for('verseny.verseny_list'))
         except IntegrityError as e:

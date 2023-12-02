@@ -86,7 +86,7 @@ def edit_feladat(feladat_id):
 
             Feladat.save(feladat)
 
-            flash('Feladat elmentve.')
+            flash('Feladat szerkesztve.')
 
             return redirect(url_for('feladat.feladat_list'))
         except IntegrityError as e:

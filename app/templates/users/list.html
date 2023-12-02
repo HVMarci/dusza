@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2 style="margin: 10px">List users</h2>
-    <table style="margin: 10px" class="table table-striped">
+    <h2>Felhasználók</h2>
+    <table class="table table-striped">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Role</th>
+            <th>Azonosító</th>
+            <th>Felhasználónév</th>
+            <th>Szerep</th>
             {% if has_role('ADMIN') %}
                 <th colspan="2"></th>
             {% endif %}
@@ -20,10 +20,10 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.role.display_name }}</td>
                 {% if has_role('ADMIN') %}
-                    <td><a href="{{ url_for('users.edit_user', username=user.username) }}">edit</a></td>
+                    <td><a href="{{ url_for('users.edit_user', username=user.username) }}" class="btn btn-dark">szerkesztés</a></td>
                     <td>
                         <form method="post" action="{{ url_for('users.delete_user', username=user.username) }}">
-                            <a href="#" onclick="confirm('Delete user?') && this.closest('form').submit()">delete</a>
+                            <a href="#" onclick="confirm('Biztosan törli a felhasználót?') && this.closest('form').submit()" class="btn btn-dark">törlés</a>
                         </form>
                     </td>
                 {% endif %}
@@ -33,6 +33,6 @@
     </table>
 
     {% if has_role('ADMIN') %}
-        <p style="margin: 10px"><a href="{{ url_for('users.create_user') }}" class="btn btn-dark">Create user</a></p>
+        <p><a href="{{ url_for('users.create_user') }}" class="btn btn-dark">Új felhasználó</a></p>
     {% endif %}
 {% endblock %}

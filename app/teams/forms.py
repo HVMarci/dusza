@@ -31,10 +31,10 @@ class TeamForm:
             self.errors.append('Hiányzik a leírás.')
 
         if len(self.osztaly) != 1:
-            self.errors.append('Az osztály hibás.')
+            self.errors.append('Hibás az osztály.')
 
         if self.evfolyam < 5 or self.evfolyam > 8:
-            self.errors.append('Az évfolyam hibás.')
+            self.errors.append('Hibás az évfolyam.')
 
         try:
             self.user_ids = ()

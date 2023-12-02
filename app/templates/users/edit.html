@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2 style="margin: 10px">{{ 'Create' if form.create else 'Edit' }} user</h2>
+    <h2>Felhasználó {{ 'létrehozása' if form.create else 'szerkesztése' }}</h2>
 
-    <form method="post" onsubmit="return confirm('{{ 'Create' if form.create else 'Save' }} user?')">
+    <form method="post" onsubmit="return confirm('Biztosan {{ 'létrehozza' if form.create else 'szerkeszti' }} a felhasználót?')">
         {% if form.errors|length > 0 %}
         <ul>
             {% for error in form.errors %}
@@ -12,17 +12,17 @@
         </ul>
         {% endif %}
 
-        <table style="margin: 10px">
+        <table>
             <tr>
-                <th><label for="username">Username</label></th>
+                <th><label for="username">Felhasználónév</label></th>
                 <td><input type="text" name="username" value="{{ form.username }}" id="username" required></td>
             </tr>
             <tr>
-                <th><label for="password">Password</label></th>
+                <th><label for="password">Jelszó</label></th>
                 <td><input type="password" name="password" value="{{ form.password }}" id="password"{{ ' required' if form.create else '' }}></td>
             </tr>
             <tr>
-                <th><label for="role">Role</label></th>
+                <th><label for="role">Szerep</label></th>
                 <td>
                     <select name="role_id" id="role" required onchange="diak()">
                         {% for role in roles %}
@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button type="submit" class="btn btn-dark">{{ 'Create' if form.create else 'Save' }}</button>
+                    <button type="submit" class="btn btn-dark">{{ 'Létrehozás' if form.create else 'Mentés' }}</button>
                 </td>
             </tr>
         </table>

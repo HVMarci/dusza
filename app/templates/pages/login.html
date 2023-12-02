@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2 style="margin: 10px">Bejelentkezés</h2>
+    <h2>Bejelentkezés</h2>
 
     <form method="post">
         {% if form.errors|length > 0 %}
@@ -12,7 +12,7 @@
         </ul>
         {% endif %}
 
-        <table style="margin: 10px">
+        <table>
             <tr>
                 <th><label for="username">Felhasználónév</label></th>
                 <td><input type="text" name="username" value="{{ form.username }}" id="username" required></td>

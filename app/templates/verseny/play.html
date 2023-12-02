@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2 style="margin: 10px">Feladat</h2>
-    <div style="margin: 10px">
+    <h2>Feladat</h2>
+    <div>
         {% for i in range(3) %}
             <span>{{ feladat.strings[i] }}</span>
         {% endfor %}
         <span>{{ feladat.scrambled }}</span>
     </div>
-    <form style="margin: 10px" method="post">
+    <form method="post">
         <label for="megoldas">Megoldás: </label>
         <input type="text" id="megoldas" name="megoldas">
         <button type="submit" class="btn btn-dark">Beküld</button>

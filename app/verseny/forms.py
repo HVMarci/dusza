@@ -54,7 +54,7 @@ class VersenyForm:
             self.errors.append('Hiányzik a leírás.')
 
         if self.evfolyam < 5 or self.evfolyam > 8:
-            self.errors.append('Az évfolyam hibás.')
+            self.errors.append('Hibás az évfolyam.')
 
         if self.kezdet >= self.veg:
             self.errors.append('A verseny a vége után kezdődik.')

@@ -48,6 +48,6 @@ class EditForm:
             self.errors.append('A 4. szónak legalább 3 betű hosszúnak kell lennie!')
 
         if self.evfolyam < 5 or self.evfolyam > 8:
-            self.errors.append('Az évfolyam hibás.')
+            self.errors.append('Hibás az évfolyam.')
 
         return len(self.errors) == 0

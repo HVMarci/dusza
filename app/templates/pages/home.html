@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h2 style="margin: 10px">Főoldal</h2>
-    <p style="margin: 10px">Üdvözöljük a főoldalon!</p>
+    <h2>Főoldal</h2>
+    <p>Üdvözöljük a főoldalon!</p>
+
+    {% if has_role('ADMIN') %}
+        <a href="{{ link_for('') }}" class="btn btn-dark">Szerkesztés</a>
+    {% endif %}
 {% endblock %}

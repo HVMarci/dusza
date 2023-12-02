@@ -81,7 +81,7 @@ def edit_team(team_id):
                 i += 1
                 User.save(user)
 
-            flash('Csapat elmentve.')
+            flash('Csapat szerkesztve.')
 
             return redirect(url_for('teams.list_teams'))
         except IntegrityError as e:

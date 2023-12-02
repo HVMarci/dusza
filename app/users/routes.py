@@ -34,7 +34,7 @@ def create_user():
             )
 
             User.save(user)
-            flash('User created.')
+            flash('Felhasználó létrehozva.')
 
             return redirect(url_for('users.list_users'))
         except IntegrityError as e:
@@ -66,7 +66,7 @@ def edit_user(username):
             user.osztaly = form.osztaly
 
             User.save(user)
-            flash('User saved.')
+            flash('Felhasználó módosítva.')
 
             return redirect(url_for('users.list_users'))
         except IntegrityError as e:
@@ -84,7 +84,7 @@ def delete_user(username):
 
     try:
         User.delete(user.user_id)
-        flash('User deleted.')
+        flash('Felhasználó törölve.')
     except IntegrityError as e:
         flash(str(e))
 
