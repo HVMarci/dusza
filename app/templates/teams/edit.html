@@ -44,6 +44,12 @@
                 </tr>
             {% endfor %}
             <tr>
+                <th><label for="verseny_id">Verseny azonosítója:</label></th>
+                <td>
+                    <input type="number" name="verseny_id" id="verseny_id">
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <button type="submit">{{ 'Create' if form.create else 'Save' }}</button>
                 </td>

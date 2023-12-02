@@ -4,13 +4,14 @@ from app.models.user import User
 
 
 class TeamForm:
-    def __init__(self, team_name='', description='', user_ids=(0,0,0), evfolyam=5, osztaly='', create=False):
+    def __init__(self, team_name='', description='', user_ids=(0,0,0), evfolyam=5, osztaly='', verseny_id=0, create=False):
         self.team_name = team_name
         self.description = description
         self.user_ids = user_ids
         self.evfolyam = evfolyam
         self.osztaly = osztaly
         self.create = create
+        self.verseny_id = verseny_id
         self.errors = []
 
     def validate_on_submit(self):
@@ -21,6 +22,7 @@ class TeamForm:
         self.description = request.form.get('description', '').strip()
         self.evfolyam = int(request.form.get('evfolyam', '0'))
         self.osztaly = request.form.get('osztaly', '').strip()
+        self.verseny_id = int(request.form.get('verseny_id').strip())
 
         if self.team_name == '':
             self.errors.append('Hiányzik a csapatnév.')

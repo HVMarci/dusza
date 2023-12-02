@@ -13,13 +13,40 @@ class Feladat:
         self.number = number
         self.scrambled = self.strings[3]
         if self.id:
-            i = self.id + 123456
-            while self.scrambled == self.strings[3]:
-                scrambled = bytearray(strings[3].encode('utf-8'))
-                random.seed(i)
-                random.shuffle(scrambled)
-                self.scrambled = ''.join(scrambled.decode('utf-8'))
-                i += 1
+            random.seed(self.id + 123456)
+            self.scramble()
+
+    def scramble(self):
+        s = self.strings[3]
+        vowels = 'aáeéiíoóöőuúüű'
+        original_vowel_indices = [i for i, c in enumerate(s) if c.lower() in vowels]
+        original_vowel_order = [s[i] for i in original_vowel_indices]
+
+        i = 0
+        while True:
+            i += 1
+
+            if i == 100:
+                # for edge cases
+                break
+            # Shuffle the entire string
+            s_list = list(s)
+            random.shuffle(s_list)
+
+            # Check if first and last characters have changed places
+            if s_list[0] == s[0] or s_list[-1] == s[-1]:
+                continue
+
+            # Check if vowel order has changed
+            new_vowel_order = [s_list[i] for i in original_vowel_indices]
+            if len(set(new_vowel_order)) > 1 and new_vowel_order == original_vowel_order:
+                continue
+
+            # If both conditions are met, break the loop
+            break
+
+        self.scrambled = ''.join(s_list)
+        return self.scrambled
 
     @property
     def upload(self):

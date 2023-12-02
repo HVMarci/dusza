@@ -33,6 +33,7 @@ def verseny_list():
 
     return render_template('verseny/list.html', versenyek=versenyek, time=time, format_epoch=format_epoch)
 
+
 @bp.route('/play/<id>', methods=('get', 'post'))
 @has_role('DIAK')
 def verseny_play(id):
@@ -72,6 +73,8 @@ def create_verseny():
             )
 
             Verseny.save(verseny)
+            for sel in form.feladatok:
+                Feladat.add_to_verseny(sel, verseny.id)
 
             flash('Verseny létrehozva.')
 

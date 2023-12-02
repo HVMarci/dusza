@@ -49,4 +49,7 @@
     {% else %}
         <div>Nincs elérhető verseny!</div>
     {% endif %}
+    {% if has_role('ZSURI') %}
+        <a href="{{ url_for('verseny.create_verseny') }}" class="btn btn-dark">Új verseny létrehozása</a>
+    {% endif %}
 {% endblock %}

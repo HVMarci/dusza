@@ -24,6 +24,7 @@ class VersenyForm:
 
         self.name = request.form.get('name', '').strip()
         self.description = request.form.get('description', '').strip()
+        self.evfolyam = int(request.form.get('evfolyam', 5))
         self.feladatok = [int(sel[3:]) for sel, val in request.form.items() if sel.startswith('sel') and val == 'on' and
                           Feladat.find_by_id(int(sel[3:])).number == self.evfolyam]
 

@@ -68,7 +68,7 @@ def edit_user(username):
             User.save(user)
             flash('User saved.')
 
-            return redirect(url_for('users.edit_user', username=username))
+            return redirect(url_for('users.list_users'))
         except IntegrityError as e:
             form.errors.append(str(e))
 

@@ -29,7 +29,8 @@ def create_team():
                 team_name=form.team_name,
                 description=form.description,
                 evfolyam=form.evfolyam,
-                osztaly=form.osztaly
+                osztaly=form.osztaly,
+                verseny_id=form.verseny_id
             )
 
             Team.save(team)
@@ -57,7 +58,8 @@ def edit_team(team_id):
         description=team.description,
         evfolyam=team.evfolyam,
         osztaly=team.osztaly,
-        user_ids=tuple([user.user_id for user in User.find_by_team(team.id)])
+        user_ids=tuple([user.user_id for user in User.find_by_team(team.id)]),
+        verseny_id=team.verseny_id
     )
 
     if form.validate_on_submit():
@@ -67,6 +69,7 @@ def edit_team(team_id):
             team.evfolyam = form.evfolyam
             team.osztaly = form.osztaly
             team.user_ids = form.user_ids
+            team.verseny_id = form.verseny_id
 
             Team.save(team)
             i=0

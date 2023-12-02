@@ -5,6 +5,7 @@ from flask import render_template, g, redirect, url_for, session, flash, request
 from app.models.user import User
 from app.pages import bp
 from app.pages.forms import LoginForm
+from app.security import is_fully_authenticated
 
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -43,3 +44,9 @@ def logout():
 @bp.route('/')
 def home():
     return render_template('pages/home.html')
+
+
+@bp.route('/bemutatkozas')
+@is_fully_authenticated
+def bemutatkozas():
+    return render_template('pages/bemutatkozas.html')
