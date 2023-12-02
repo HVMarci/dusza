@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `teams`;
 DROP TABLE IF EXISTS `roles`;
 DROP TABLE IF EXISTS `verseny`;
+DROP TABLE IF EXISTS `homepage`;
 
 
 CREATE TABLE `verseny` (
@@ -77,6 +78,12 @@ CREATE TABLE `verseny_feladat` (
     `feladat_id` INT NOT NULL,
     FOREIGN KEY (`verseny_id`) REFERENCES `verseny`(`id`),
     FOREIGN KEY (`feladat_id`) REFERENCES `feladat`(`id`)
+);
+
+CREATE TABLE `homepage` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `data` TEXT NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
 INSERT INTO `verseny`(`name`, `description`, `kezdet`, `veg`, `evfolyam`)
@@ -158,3 +165,6 @@ VALUES (1, 2),
        (2, 1),
        (2, 2),
        (2, 5);
+
+INSERT INTO `homepage`(`data`)
+VALUES ('<h2>Üdvözöljük a főoldalon!</h2><p>Szép jó napot kívánunk tisztelettel!</p>');

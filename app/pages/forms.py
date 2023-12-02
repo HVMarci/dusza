@@ -22,3 +22,21 @@ class LoginForm:
             self.errors.append('Hiányzik a jelszó.')
 
         return len(self.errors) == 0
+
+
+class HomepageForm:
+    def __init__(self, data=''):
+        self.data = data
+        self.errors = []
+
+    def validate_on_submit(self):
+        if request.method != 'POST':
+            return False
+
+        self.data = request.form.get('content', '')
+        self.errors = []
+
+        if self.data == '':
+            self.errors.append('Üres a tartalom.')
+
+        return len(self.errors) == 0

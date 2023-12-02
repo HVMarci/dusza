@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 
 from app import connection, security
@@ -7,6 +9,7 @@ from config import Config
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'uploaded_images')
     connection.init_app(app)
     security.init_app(app)
 

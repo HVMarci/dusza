@@ -4,31 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Online játékos vetélkedő</title>
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ckeditor5/content-styles.css') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='ojv-favicon.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        header {
-            background-color: #FFCC00;
-            padding: 5px;
-        }
-        footer {
-            background-color: #FFCC00;
-        }
-        html {
-          height: 100%;
-        }
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        .alert {
-            width: 15%;
-            height: 10%;
-            font-size: 20px;
-        }
-    </style>
 </head>
 <body>
 
@@ -71,7 +50,7 @@
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
-                <h3 style="margin: 10px" class="alert alert-success alert-dismissible fade show">{{ message }}
+                <h3 class="alert alert-success alert-dismissible fade show">{{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </h3>
             {% endfor %}

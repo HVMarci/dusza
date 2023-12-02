@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Főoldal szerkesztése</h2>
+    <form method="POST">
+    <table>
+        <tr>
+            <td><textarea name="content" id="editor">{{ form.data|safe }}</textarea></td>
+        </tr>
+        <tr>
+            <td><button type="submit" class="btn btn-dark">Mentés</button></td>
+        </tr>
+    </table>
+    </form>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then(editor => {
+                // Listen to the image upload event
+                editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                    return {
+                        upload: () => {
+                            return loader.file
+                                .then(file => new Promise((resolve, reject) => {
+                                    const data = new FormData();
+                                    data.append('file', file);
+
+                                    fetch('/upload_image', {
+                                        method: 'POST',
+                                        body: data,
+                                    })
+                                    .then(data => {
+                                        console.log(data)
+                                        if (data.url) {
+                                            resolve({ default: data.url });
+                                        } else {
+                                            reject(data.message);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error(error)
+                                        reject('Nem sikerült feltölteni a képet.');
+                                    });
+                                }));
+                        }
+                    };
+                };
+            })
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+{% endblock %}
