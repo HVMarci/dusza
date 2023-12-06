@@ -31,7 +31,9 @@ class UserForm:
             self.errors.append('Hibás az évfolyam.')
         self.osztaly = request.form.get('osztaly', '')
 
-        if len(self.osztaly) != 1:
+        if self.role_id != 3:
+            self.osztaly = ' '
+        elif len(self.osztaly) != 1:
             self.errors.append('Hibás az osztály.')
 
         if self.username == '':
