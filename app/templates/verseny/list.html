@@ -6,6 +6,7 @@
         <table class="table table-striped">
         <thead>
         <tr>
+            <th>Azonosító</th>
             <th>Név</th>
             <th>Leírás</th>
             <th>Kezdődik</th>
@@ -21,6 +22,7 @@
         <tbody>
         {% for verseny in versenyek %}
             <tr>
+            <td>{{ verseny.id }}</td>
             <td>{{ verseny.name }}</td>
             <td>{{ verseny.description }}</td>
             <td>{{ format_epoch(verseny.kezdet) }}</td>

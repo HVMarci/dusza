@@ -41,12 +41,12 @@
             </tr>
             <tr>
                 <th>Feladatok kiválasztása:</th>
+                <td></td>
             </tr>
             {% for feladat in feladatok %}
                 <tr class="ev{{ feladat.number }}">
                 <td><input type="checkbox" name="sel{{ feladat.id }}" id="sel{{ feladat.id }}"></td>
                 <td>{{ ' '.join(feladat.strings) }}</td>
-                <td>{{ feladat.number }}. osztály</td>
                 </tr>
             {% endfor %}
             <tr>

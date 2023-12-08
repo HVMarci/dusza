@@ -57,12 +57,18 @@ class Verseny:
 
     @staticmethod
     def delete(verseny_id):
-        query = '''
-                DELETE FROM `verseny`
+        queries = ('''
+                DELETE FROM `verseny_feladat`
+                WHERE `verseny_id` = %s;''',
+                '''UPDATE `teams`
+                SET `verseny_id` = NULL
+                WHERE `verseny_id` = %s;''',
+                '''DELETE FROM `verseny`
                 WHERE `id` = %s;
-            '''
+            ''')
 
-        execute(query, (verseny_id,))
+        for query in queries:
+            execute(query, (verseny_id,))
 
     @staticmethod
     def remove_feladat(verseny):

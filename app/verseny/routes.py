@@ -40,7 +40,7 @@ def verseny_play(id):
     feladat, hossz = Feladat.find_by_progress(g.user.progress, g.user.team.verseny_id)
 
     if g.user.progress >= hossz:
-        flash('Vége a versenynek!')
+        flash(f'Vége a versenynek!\nPontszám: {g.user.helyes}')
         return redirect(url_for('verseny.verseny_list'))
 
     if request.method == 'POST':

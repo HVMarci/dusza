@@ -32,15 +32,13 @@
             {% endif %}
             {% if is_fully_authenticated() %}
                 <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('verseny.verseny_list') }}" class="btn btn-dark" role="button">Versenyek</a>
+                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('users.list_users') }}" class="btn btn-dark" role="button">Felhasználók</a>
+                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('pages.bemutatkozas') }}" class="btn btn-dark" role="button">Bemutatkozás</a>
             {% endif %}
             {% if is_fully_authenticated() %}
-                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('users.list_users') }}" class="btn btn-dark" role="button">Felhasználók</a>
                 <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('pages.logout') }}" class="btn btn-dark" role="button">Kijelentkezés</a>
             {% else %}
                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('pages.login') }}" class="btn btn-dark" role="button">Bejelentkezés</a>
-            {% endif %}
-            {% if is_fully_authenticated() %}
-                <a style="margin-left: 5px; margin-bottom: 5px" href="{{ url_for('pages.bemutatkozas') }}" class="btn btn-dark" role="button">Bemutatkozás</a>
             {% endif %}
     </nav>
 
